@@ -8,6 +8,57 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    --background: 0 0% 96%;
+    --foreground: 240 10% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+
+    --primary: 211 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 271 76% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 211 100% 50%;
+
+    --radius: 1.5rem;
+
+    --neon-blue: 211 100% 50%;
+    --neon-cyan: 191 91% 54%;
+    --neon-purple: 271 76% 53%;
+    --neon-orange: 28 100% 50%;
+    --neon-pink: 346 100% 59%;
+    --neon-green: 145 70% 45%;
+    
+    --glass-bg: 0 0% 100% / 0.7;
+    --glass-border: 240 6% 90%;
+
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: 240 10% 4%;
+    --sidebar-primary: 211 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 240 6% 90%;
+    --sidebar-ring: 211 100% 50%;
+  }
+
+  .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
 
@@ -36,8 +87,6 @@ All colors MUST be HSL.
     --input: 240 6% 15%;
     --ring: 211 100% 50%;
 
-    --radius: 1.5rem;
-
     --neon-blue: 211 100% 50%;
     --neon-cyan: 191 91% 64%;
     --neon-purple: 271 76% 53%;
@@ -48,7 +97,7 @@ All colors MUST be HSL.
     --glass-bg: 240 11% 11% / 0.6;
     --glass-border: 0 0% 100% / 0.1;
 
-    --sidebar-background: 240 11% 11%;
+    --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 211 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -61,18 +110,21 @@ All colors MUST be HSL.
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-300;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/60 backdrop-blur-2xl border border-white/10;
+    @apply backdrop-blur-2xl border;
+    background: hsl(var(--glass-bg));
+    border-color: hsl(var(--glass-border));
   }
   
   .haptic-btn {
