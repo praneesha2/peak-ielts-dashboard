@@ -39,7 +39,7 @@ export function CircularProgress({ value, max, label, className = "" }: Circular
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          style={{ filter: "drop-shadow(0 0 8px hsl(var(--neon-blue)))" }}
+          className="dark:drop-shadow-[0_0_8px_hsl(var(--neon-blue))]"
         />
       </svg>
       
