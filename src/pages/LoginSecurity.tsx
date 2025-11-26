@@ -24,7 +24,7 @@ export default function LoginSecurity() {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="max-w-3xl"
+        className="max-w-3xl mx-auto"
       >
         <button
           onClick={() => navigate("/settings")}
