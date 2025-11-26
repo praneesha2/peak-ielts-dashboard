@@ -28,8 +28,8 @@ export default function Dashboard() {
             {/* Circular Progress */}
             <div className="flex flex-col items-center">
               <CircularProgress value={6.0} max={9} label="BAND SCORE" className="w-48 h-48" />
-              <div className="mt-6 px-6 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30">
-                <span className="text-sm font-medium text-yellow-500">Competent User</span>
+              <div className="mt-6 px-6 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 dark:from-yellow-500/20 dark:to-yellow-600/20 dark:border-yellow-500/30">
+                <span className="text-sm font-medium text-yellow-600 dark:text-yellow-500">Competent User</span>
               </div>
             </div>
 

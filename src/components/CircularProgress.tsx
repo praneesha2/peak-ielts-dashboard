@@ -49,7 +49,7 @@ export function CircularProgress({ value, max, label, className = "" }: Circular
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.5, type: "spring" }}
-          className="text-5xl font-bold"
+          className="text-5xl font-bold text-foreground"
         >
           {value}
         </motion.span>
