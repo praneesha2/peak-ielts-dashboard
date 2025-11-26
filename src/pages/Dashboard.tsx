@@ -153,13 +153,13 @@ export default function Dashboard() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="glass-card rounded-[2rem] p-6 bg-gradient-to-br from-purple-600/40 to-blue-600/40 relative overflow-hidden"
+          className="rounded-[2rem] p-6 relative overflow-hidden bg-gradient-to-br from-[#5856D6] to-[#007AFF] dark:glass-card dark:from-purple-600/40 dark:to-blue-600/40"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 backdrop-blur-xl" />
+          <div className="absolute inset-0 backdrop-blur-xl dark:bg-gradient-to-br dark:from-purple-600/20 dark:to-blue-600/20" />
           <div className="relative z-10">
-            <h3 className="text-2xl font-semibold mb-2">Pro Plan</h3>
-            <p className="text-sm text-foreground/80 mb-6">Unlimited mock tests.</p>
-            <button className="px-8 py-3 rounded-2xl bg-white text-purple-600 font-semibold haptic-btn hover:bg-white/90">
+            <h3 className="text-2xl font-semibold mb-2 text-white">Pro Plan</h3>
+            <p className="text-sm mb-6 text-white/90 dark:text-foreground/80">Unlimited mock tests.</p>
+            <button className="px-8 py-3 rounded-2xl bg-white text-[#5856D6] font-semibold haptic-btn hover:bg-white/90 dark:text-purple-600">
               Upgrade Now
             </button>
           </div>
