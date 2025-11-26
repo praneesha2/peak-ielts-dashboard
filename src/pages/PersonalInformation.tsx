@@ -25,7 +25,7 @@ export default function PersonalInformation() {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="max-w-3xl mx-auto"
+        className="max-w-3xl"
       >
         {/* Back Button */}
         <button
