@@ -43,30 +43,30 @@ export const mockSettingsSections = [
   {
     title: "GENERAL",
     items: [
-      { label: "Personal Information", icon: "User", url: "/settings/personal" },
-      { label: "Language & Region", icon: "Globe", url: "/settings/language", value: "English (US)" },
-      { label: "Notifications", icon: "Bell", url: "/settings/notifications", value: "On" },
+      { icon: "User", label: "Personal Information", link: "/settings/personal-information" },
+      { icon: "Globe", label: "Language & Region", value: "English (US)", link: "/settings/language-preferences" },
+      { icon: "Bell", label: "Notifications", value: "On", link: "/settings/notifications" },
     ],
   },
   {
     title: "SECURITY",
     items: [
-      { label: "Login & Security", icon: "Shield", url: "/settings/security" },
-      { label: "Privacy Settings", icon: "Lock", url: "/settings/privacy" },
+      { icon: "Shield", label: "Login & Security", link: "/settings/login-security" },
+      { icon: "Lock", label: "Privacy Settings", link: "/settings/privacy-settings" },
     ],
   },
   {
     title: "BILLING",
     items: [
-      { label: "Payment Methods", icon: "CreditCard", url: "/settings/payment" },
-      { label: "Subscription Management", icon: "Key", url: "/settings/subscription" },
+      { icon: "CreditCard", label: "Payment Methods", link: "/settings/manage-billing" },
+      { icon: "Zap", label: "Subscription Management", link: "/settings/manage-billing" },
     ],
   },
   {
     title: "SUPPORT",
     items: [
-      { label: "Help & FAQ", icon: "HelpCircle", url: "/settings/help" },
-      { label: "Contact Support", icon: "MessageCircle", url: "/settings/contact" },
+      { icon: "HelpCircle", label: "Help & FAQ", link: "/settings/help-faq" },
+      { icon: "MessageCircle", label: "Contact Support", link: "/settings/contact-support" },
     ],
   },
 ];
