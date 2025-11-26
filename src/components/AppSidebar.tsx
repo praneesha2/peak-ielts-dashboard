@@ -24,7 +24,7 @@ export function AppSidebar() {
   const { open } = useSidebar();
 
   return (
-    <Sidebar className="glass-card border-r border-white/10">
+    <Sidebar className="bg-background border-r border-border backdrop-blur-2xl">
       <SidebarContent className="p-6">
         {/* Logo */}
         <motion.div
@@ -48,7 +48,7 @@ export function AppSidebar() {
                     <NavLink
                       to={item.url}
                       end
-                      className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all haptic-btn hover:bg-white/5"
+                      className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all haptic-btn hover:bg-white/5 dark:hover:bg-white/5"
                       activeClassName="bg-primary/20 text-primary"
                     >
                       <item.icon className="w-5 h-5" />

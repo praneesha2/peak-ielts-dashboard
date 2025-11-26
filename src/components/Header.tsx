@@ -1,5 +1,6 @@
-import { Bell, Sun, Menu } from "lucide-react";
+import { Bell, Sun, Moon, Menu } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 interface HeaderProps {
   title: string;
@@ -7,6 +8,12 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle }: HeaderProps) {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
@@ -24,8 +31,15 @@ export function Header({ title, subtitle }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        <button className="p-3 rounded-full glass-card haptic-btn hover:bg-white/5">
-          <Sun className="w-5 h-5" />
+        <button 
+          onClick={toggleTheme}
+          className="p-3 rounded-full glass-card haptic-btn hover:bg-white/5 transition-all"
+        >
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5" />
+          ) : (
+            <Moon className="w-5 h-5" />
+          )}
         </button>
         <button className="relative p-3 rounded-full glass-card haptic-btn hover:bg-white/5">
           <Bell className="w-5 h-5" />
