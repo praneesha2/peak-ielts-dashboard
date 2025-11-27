@@ -8,6 +8,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
+import Achievements from "./pages/Achievements";
 import Settings from "./pages/Settings";
 import PersonalInformation from "./pages/PersonalInformation";
 import LoginSecurity from "./pages/LoginSecurity";
@@ -36,6 +38,8 @@ const App = () => (
                 <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/achievements" element={<Achievements />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/personal-information" element={<PersonalInformation />} />
               <Route path="/settings/login-security" element={<LoginSecurity />} />
