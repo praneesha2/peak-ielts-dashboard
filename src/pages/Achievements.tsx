@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Crown, Download, Star, Clock, Flame, Share2, BookOpen, Lock, Trophy } from "lucide-react";
 import { Header } from "@/components/Header";
-import { GlassCard } from "@/components/GlassCard";
 import { mockAchievements, mockProgress } from "@/lib/achievementsData";
 
 const iconMap = {
@@ -20,12 +19,6 @@ export default function Achievements() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-black relative">
-      {/* Background Blobs - Light Mode Only */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none dark:hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-yellow-500/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: "1s" }} />
-      </div>
-
       <div className="relative z-10">
         <Header 
           title="Achievements" 
@@ -34,7 +27,7 @@ export default function Achievements() {
 
         <div className="container mx-auto px-4 py-8 space-y-8 max-w-7xl">
           {/* Hero Progress Card */}
-          <GlassCard className="p-8">
+          <div className="rounded-3xl border backdrop-blur-2xl bg-white/80 border-white/50 dark:bg-[#1c1c1e]/60 dark:border-white/10 shadow-lg dark:shadow-black/20 p-8">
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Progress Ring */}
               <div className="relative">
@@ -56,7 +49,7 @@ export default function Achievements() {
                     cy="80"
                     r="70"
                     fill="none"
-                    stroke="#FFD700"
+                    stroke="#FDB827"
                     strokeWidth="12"
                     strokeLinecap="round"
                     strokeDasharray={circumference}
@@ -83,32 +76,32 @@ export default function Achievements() {
               {/* Stats */}
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center gap-2 mb-3 justify-center md:justify-start">
-                  <Crown className="w-6 h-6 text-[#FFD700]" />
+                  <Crown className="w-6 h-6 text-[#FDB827]" />
                   <h2 className="text-3xl font-bold text-slate-900 dark:text-white">{mockProgress.level}</h2>
                 </div>
-                <p className="text-slate-500 dark:text-slate-400 mb-6">
+                <p className="text-slate-600 dark:text-slate-400 mb-6">
                   You've unlocked {mockProgress.badges} out of {mockProgress.totalBadges} achievements. Keep practicing daily to reach the Master level!
                 </p>
                 
                 <div className="flex items-center gap-8 justify-center md:justify-start">
                   <div className="text-center md:text-left">
                     <p className="text-3xl font-bold text-slate-900 dark:text-white">{mockProgress.badges}</p>
-                    <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">BADGES</p>
+                    <p className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-400">BADGES</p>
                   </div>
                   <div className="w-px h-12 bg-slate-300 dark:bg-slate-700" />
                   <div className="text-center md:text-left">
                     <p className="text-3xl font-bold text-slate-900 dark:text-white">{mockProgress.points.toLocaleString()}</p>
-                    <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">TOTAL POINTS</p>
+                    <p className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-400">TOTAL POINTS</p>
                   </div>
                   <div className="w-px h-12 bg-slate-300 dark:bg-slate-700" />
                   <div className="text-center md:text-left">
                     <p className="text-3xl font-bold text-slate-900 dark:text-white">#{mockProgress.rank}</p>
-                    <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">RANK</p>
+                    <p className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-400">RANK</p>
                   </div>
                 </div>
               </div>
             </div>
-          </GlassCard>
+          </div>
 
           {/* Milestones Section */}
           <div>
@@ -122,25 +115,23 @@ export default function Achievements() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.01, y: -2 }}
                   >
-                    <GlassCard 
-                      hoverEffect 
-                      className={`p-6 relative ${!achievement.unlocked && "opacity-80"}`}
-                    >
+                    <div className={`rounded-3xl border backdrop-blur-2xl bg-white/80 border-white/50 dark:bg-[#1c1c1e]/60 dark:border-white/10 shadow-lg dark:shadow-black/20 p-6 relative transition-all duration-300 ${!achievement.unlocked && "opacity-90"}`}>
                       {/* Icon */}
-                      <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${achievement.iconBg} flex items-center justify-center mb-4 ${!achievement.unlocked && "grayscale"}`}>
+                      <div className={`w-20 h-20 rounded-2xl ${achievement.iconBg} flex items-center justify-center mb-4 shadow-lg ${!achievement.unlocked && "grayscale opacity-60"}`}>
                         <IconComponent className="w-10 h-10 text-white" />
                       </div>
 
                       {/* Badge */}
                       <div className="absolute top-6 right-6">
                         {achievement.unlocked ? (
-                          <div className="px-3 py-1.5 rounded-full bg-[#FFD700]/20 text-[#FFD700] text-sm font-semibold flex items-center gap-1">
+                          <div className="px-3 py-1.5 rounded-full bg-[#FDB827]/20 text-[#B8860B] dark:text-[#FDB827] text-sm font-semibold flex items-center gap-1">
                             <Trophy className="w-4 h-4" />
                             {achievement.points} pts
                           </div>
                         ) : (
-                          <div className="px-3 py-1.5 rounded-full bg-slate-500/20 text-slate-500 text-sm font-semibold flex items-center gap-1">
+                          <div className="px-3 py-1.5 rounded-full bg-slate-300/50 dark:bg-slate-500/20 text-slate-600 dark:text-slate-500 text-sm font-semibold flex items-center gap-1">
                             <Lock className="w-4 h-4" />
                             Locked
                           </div>
@@ -149,19 +140,19 @@ export default function Achievements() {
 
                       {/* Content */}
                       <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{achievement.title}</h4>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">{achievement.description}</p>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">{achievement.description}</p>
 
                       {/* Progress Bar */}
                       {!achievement.unlocked && (
                         <div>
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">PROGRESS</span>
+                            <span className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-400">PROGRESS</span>
                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{achievement.progress}%</span>
                           </div>
-                          <div className="h-2 bg-slate-300/30 dark:bg-slate-700/30 rounded-full overflow-hidden">
+                          <div className="h-2 bg-slate-200 dark:bg-slate-700/30 rounded-full overflow-hidden">
                             <motion.div
                               className={`h-full ${
-                                achievement.progress === 100 ? "bg-green-500" : "bg-blue-500"
+                                achievement.progress === 100 ? "bg-[#34C759]" : "bg-[#007AFF]"
                               } rounded-full`}
                               initial={{ width: 0 }}
                               animate={{ width: `${achievement.progress}%` }}
@@ -170,7 +161,7 @@ export default function Achievements() {
                           </div>
                         </div>
                       )}
-                    </GlassCard>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -189,25 +180,23 @@ export default function Achievements() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.01, y: -2 }}
                   >
-                    <GlassCard 
-                      hoverEffect 
-                      className={`p-6 relative ${!achievement.unlocked && "opacity-80"}`}
-                    >
+                    <div className={`rounded-3xl border backdrop-blur-2xl bg-white/80 border-white/50 dark:bg-[#1c1c1e]/60 dark:border-white/10 shadow-lg dark:shadow-black/20 p-6 relative transition-all duration-300 ${!achievement.unlocked && "opacity-90"}`}>
                       {/* Icon */}
-                      <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${achievement.iconBg} flex items-center justify-center mb-4 ${!achievement.unlocked && "grayscale"}`}>
+                      <div className={`w-20 h-20 rounded-2xl ${achievement.iconBg} flex items-center justify-center mb-4 shadow-lg ${!achievement.unlocked && "grayscale opacity-60"}`}>
                         <IconComponent className="w-10 h-10 text-white" />
                       </div>
 
                       {/* Badge */}
                       <div className="absolute top-6 right-6">
                         {achievement.unlocked ? (
-                          <div className="px-3 py-1.5 rounded-full bg-[#FFD700]/20 text-[#FFD700] text-sm font-semibold flex items-center gap-1">
+                          <div className="px-3 py-1.5 rounded-full bg-[#FDB827]/20 text-[#B8860B] dark:text-[#FDB827] text-sm font-semibold flex items-center gap-1">
                             <Trophy className="w-4 h-4" />
                             {achievement.points} pts
                           </div>
                         ) : (
-                          <div className="px-3 py-1.5 rounded-full bg-slate-500/20 text-slate-500 text-sm font-semibold flex items-center gap-1">
+                          <div className="px-3 py-1.5 rounded-full bg-slate-300/50 dark:bg-slate-500/20 text-slate-600 dark:text-slate-500 text-sm font-semibold flex items-center gap-1">
                             <Lock className="w-4 h-4" />
                             Locked
                           </div>
@@ -216,18 +205,18 @@ export default function Achievements() {
 
                       {/* Content */}
                       <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{achievement.title}</h4>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm mb-4">{achievement.description}</p>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">{achievement.description}</p>
 
                       {/* Progress Bar */}
                       {!achievement.unlocked && (
                         <div>
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">PROGRESS</span>
+                            <span className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-400">PROGRESS</span>
                             <span className="text-sm font-semibold text-slate-900 dark:text-white">{achievement.progress}%</span>
                           </div>
-                          <div className="h-2 bg-slate-300/30 dark:bg-slate-700/30 rounded-full overflow-hidden">
+                          <div className="h-2 bg-slate-200 dark:bg-slate-700/30 rounded-full overflow-hidden">
                             <motion.div
-                              className="h-full bg-blue-500 rounded-full"
+                              className="h-full bg-[#007AFF] rounded-full"
                               initial={{ width: 0 }}
                               animate={{ width: `${achievement.progress}%` }}
                               transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
@@ -235,7 +224,7 @@ export default function Achievements() {
                           </div>
                         </div>
                       )}
-                    </GlassCard>
+                    </div>
                   </motion.div>
                 );
               })}
