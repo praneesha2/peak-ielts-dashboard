@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
-  { title: "Dashboard", url: "/", icon: Home },
+  { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Practice", url: "/practice", icon: Mic },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Achievements", url: "/achievements", icon: Award },
