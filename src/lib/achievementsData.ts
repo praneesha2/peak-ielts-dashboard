@@ -5,7 +5,7 @@ export const mockAchievements = {
       title: "First Steps",
       description: "Complete your first speaking test simulation.",
       icon: "Download",
-      iconBg: "from-blue-400 to-blue-600",
+      iconBg: "bg-[#007AFF]",
       points: 50,
       progress: 100,
       unlocked: true
@@ -15,7 +15,7 @@ export const mockAchievements = {
       title: "Band 7.0 Club",
       description: "Achieve a Band Score of 7.0 or higher in any test.",
       icon: "Star",
-      iconBg: "from-orange-400 to-orange-600",
+      iconBg: "bg-[#FF9500]",
       points: 0,
       progress: 85,
       unlocked: false
@@ -25,7 +25,7 @@ export const mockAchievements = {
       title: "Practice Marathon",
       description: "Complete 10 hours of total speaking practice.",
       icon: "Clock",
-      iconBg: "from-green-400 to-green-600",
+      iconBg: "bg-[#34C759]",
       points: 0,
       progress: 42,
       unlocked: false
@@ -37,7 +37,7 @@ export const mockAchievements = {
       title: "On Fire",
       description: "Maintain a 3-day practice streak.",
       icon: "Flame",
-      iconBg: "from-red-500 to-orange-500",
+      iconBg: "bg-gradient-to-br from-[#FF3B30] to-[#FF9500]",
       points: 100,
       progress: 100,
       unlocked: true
@@ -47,7 +47,7 @@ export const mockAchievements = {
       title: "Social Butterfly",
       description: "Share your test results with friends 5 times.",
       icon: "Share2",
-      iconBg: "from-purple-400 to-purple-600",
+      iconBg: "bg-[#AF52DE]",
       points: 0,
       progress: 20,
       unlocked: false
@@ -57,7 +57,7 @@ export const mockAchievements = {
       title: "Vocabulary Master",
       description: "Use 50 unique advanced vocabulary words.",
       icon: "BookOpen",
-      iconBg: "from-indigo-400 to-indigo-600",
+      iconBg: "bg-[#5856D6]",
       points: 150,
       progress: 100,
       unlocked: true
