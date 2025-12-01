@@ -47,6 +47,10 @@ export const mockUsers = [
     testsTaken: 156,
     lastActive: "2 hours ago",
     ltv: "$348",
+    plansPurchased: 3,
+    revenue: "$348",
+    joinedDate: "Oct 15, 2024",
+    phone: "+1 (555) 123-4567",
   },
   {
     id: "2",
@@ -63,6 +67,10 @@ export const mockUsers = [
     testsTaken: 243,
     lastActive: "30 min ago",
     ltv: "$876",
+    plansPurchased: 5,
+    revenue: "$876",
+    joinedDate: "Aug 22, 2024",
+    phone: "+44 7911 123456",
   },
   {
     id: "3",
@@ -79,6 +87,10 @@ export const mockUsers = [
     testsTaken: 67,
     lastActive: "5 hours ago",
     ltv: "$120",
+    plansPurchased: 2,
+    revenue: "$120",
+    joinedDate: "Nov 5, 2024",
+    phone: "+1 (416) 555-7890",
   },
   {
     id: "4",
@@ -95,6 +107,10 @@ export const mockUsers = [
     testsTaken: 34,
     lastActive: "2 days ago",
     ltv: "$0",
+    plansPurchased: 0,
+    revenue: "$0",
+    joinedDate: "Dec 1, 2024",
+    phone: "+61 412 345 678",
   },
   {
     id: "5",
@@ -111,6 +127,10 @@ export const mockUsers = [
     testsTaken: 412,
     lastActive: "Just now",
     ltv: "$1,540",
+    plansPurchased: 8,
+    revenue: "$1,540",
+    joinedDate: "Jun 10, 2024",
+    phone: "+65 9123 4567",
   },
 ];
 
