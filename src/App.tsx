@@ -20,6 +20,9 @@ import HelpFAQ from "./pages/HelpFAQ";
 import ContactSupport from "./pages/ContactSupport";
 import ReportProblem from "./pages/ReportProblem";
 import NotFound from "./pages/NotFound";
+import AdminDashboard from "./pages/AdminDashboard";
+import UserManagement from "./pages/UserManagement";
+import SupportTicketing from "./pages/SupportTicketing";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +52,9 @@ const App = () => (
               <Route path="/settings/help-faq" element={<HelpFAQ />} />
               <Route path="/settings/contact-support" element={<ContactSupport />} />
               <Route path="/settings/report-problem" element={<ReportProblem />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/users" element={<UserManagement />} />
+              <Route path="/admin/support" element={<SupportTicketing />} />
               <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

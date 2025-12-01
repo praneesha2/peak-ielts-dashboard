@@ -1,4 +1,4 @@
-import { Home, Mic, BarChart3, Award, Settings } from "lucide-react";
+import { Home, Mic, BarChart3, Award, Settings, Shield, Users, Ticket } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { motion } from "framer-motion";
 import {
@@ -18,6 +18,12 @@ const navItems = [
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Achievements", url: "/achievements", icon: Award },
   { title: "Settings", url: "/settings", icon: Settings },
+];
+
+const adminItems = [
+  { title: "Admin Dashboard", url: "/admin/dashboard", icon: Shield },
+  { title: "User Management", url: "/admin/users", icon: Users },
+  { title: "Support Tickets", url: "/admin/support", icon: Ticket },
 ];
 
 export function AppSidebar() {
@@ -60,6 +66,34 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Admin Section */}
+        {open && (
+          <SidebarGroup className="mt-8">
+            <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Admin
+            </div>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-2">
+                {adminItems.map((item) => (
+                  <SidebarMenuItem key={item.url}>
+                    <SidebarMenuButton asChild>
+                      <NavLink
+                        to={item.url}
+                        end
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all haptic-btn hover:bg-white/5 dark:hover:bg-white/5"
+                        activeClassName="bg-primary/20 text-primary"
+                      >
+                        <item.icon className="w-5 h-5" />
+                        <span className="font-medium">{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         {/* Mobile App Promo */}
         {open && (
