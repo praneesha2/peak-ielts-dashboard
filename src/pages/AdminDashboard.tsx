@@ -15,6 +15,46 @@ const iconMap = {
 export default function AdminDashboard() {
   const [timeRange, setTimeRange] = useState("Last 30 Days");
 
+  const revenueData = mockAdminMetrics.revenueGrowth;
+  const maxRevenue = Math.max(...revenueData.map((d) => d.revenue));
+  const minRevenue = Math.min(...revenueData.map((d) => d.revenue));
+  const chartWidth = 600;
+  const chartHeight = 200;
+  const paddingX = 32;
+  const paddingTop = 16;
+  const paddingBottom = 32;
+  const revenueRange = maxRevenue - minRevenue || 1;
+  const yTicks = 4;
+
+  const revenuePoints = revenueData.map((point, index) => {
+    const x =
+      paddingX +
+      (index * (chartWidth - paddingX * 2)) / (revenueData.length - 1 || 1);
+    const y =
+      paddingTop +
+      ((maxRevenue - point.revenue) *
+        (chartHeight - paddingTop - paddingBottom)) /
+        revenueRange;
+
+    return { ...point, x, y };
+  });
+
+  const linePath =
+    revenuePoints.length > 0
+      ? revenuePoints
+          .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
+          .join(" ")
+      : "";
+
+  const areaPath =
+    revenuePoints.length > 1
+      ? `${linePath} L ${
+          revenuePoints[revenuePoints.length - 1].x
+        } ${chartHeight - paddingBottom} L ${
+          revenuePoints[0].x
+        } ${chartHeight - paddingBottom} Z`
+      : "";
+
   return (
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-black p-6 md:p-8">
       {/* Animated Background Blobs */}
@@ -125,52 +165,83 @@ export default function AdminDashboard() {
           </div>
 
           <div className="relative h-64">
-            <svg className="w-full h-full" viewBox="0 0 600 200" preserveAspectRatio="none">
-              {/* Grid lines */}
-              {[0, 1, 2, 3, 4].map((i) => (
-                <line
-                  key={i}
-                  x1="0"
-                  y1={i * 50}
-                  x2="600"
-                  y2={i * 50}
-                  stroke="currentColor"
-                  strokeOpacity="0.1"
-                  className="text-slate-300 dark:text-slate-700"
-                />
-              ))}
+            <svg
+              className="w-full h-full"
+              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+              preserveAspectRatio="none"
+            >
+              {/* Grid lines & Y-axis labels */}
+              {[...Array(yTicks + 1)].map((_, i) => {
+                const ratio = i / yTicks;
+                const y =
+                  paddingTop +
+                  (chartHeight - paddingTop - paddingBottom) * ratio;
+                const value =
+                  maxRevenue - (maxRevenue - minRevenue) * ratio;
+                const label =
+                  value >= 1000 ? `$${(value / 1000).toFixed(0)}k` : `$${value}`;
+
+                return (
+                  <g key={i}>
+                    <line
+                      x1={paddingX}
+                      y1={y}
+                      x2={chartWidth - paddingX}
+                      y2={y}
+                      stroke="currentColor"
+                      strokeOpacity={0.08}
+                      className="text-slate-300 dark:text-slate-700"
+                    />
+                    <text
+                      x={0}
+                      y={y}
+                      fill="currentColor"
+                      className="text-[10px] text-slate-400 dark:text-slate-500"
+                      dominantBaseline="middle"
+                    >
+                      {label}
+                    </text>
+                  </g>
+                );
+              })}
 
               {/* Area gradient */}
               <defs>
                 <linearGradient id="revenueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#007AFF" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#007AFF" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#007AFF" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#007AFF" stopOpacity={0} />
                 </linearGradient>
               </defs>
 
               {/* Area */}
-              <path
-                d="M 0 160 Q 100 140, 100 120 Q 200 80, 200 90 Q 300 70, 300 75 Q 400 50, 400 55 Q 500 30, 500 35 Q 600 20, 600 25 L 600 200 L 0 200 Z"
-                fill="url(#revenueGradient)"
-              />
+              {areaPath && (
+                <path d={areaPath} fill="url(#revenueGradient)" />
+              )}
 
               {/* Line */}
-              <path
-                d="M 0 160 Q 100 140, 100 120 Q 200 80, 200 90 Q 300 70, 300 75 Q 400 50, 400 55 Q 500 30, 500 35 Q 600 20, 600 25"
-                fill="none"
-                stroke="#007AFF"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
+              {linePath && (
+                <path
+                  d={linePath}
+                  fill="none"
+                  stroke="#007AFF"
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                />
+              )}
 
               {/* Data points */}
-              {mockAdminMetrics.revenueGrowth.map((_, i) => {
-                const x = i * 100;
-                const y = 160 - i * 25;
-                return (
-                  <circle key={i} cx={x} cy={y} r="4" fill="#007AFF" className="cursor-pointer" />
-                );
-              })}
+              {revenuePoints.map((point) => (
+                <circle
+                  key={point.month}
+                  cx={point.x}
+                  cy={point.y}
+                  r={4}
+                  fill="#007AFF"
+                  className="cursor-pointer"
+                >
+                  <title>{`${point.month}: $${point.revenue.toLocaleString()}`}</title>
+                </circle>
+              ))}
             </svg>
 
             {/* Month labels */}
@@ -266,10 +337,31 @@ export default function AdminDashboard() {
                     <Icon className="w-5 h-5" style={{ color: activity.color }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-slate-900 dark:text-white">{activity.user}</div>
-                    <div className="text-sm text-slate-500 dark:text-slate-400">{activity.action}</div>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="font-medium text-slate-900 dark:text-white truncate">
+                          {activity.user}
+                        </div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                          {activity.email}
+                        </div>
+                        <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                          {activity.action}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">
+                          {activity.country}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-xs text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+                          {activity.plan} plan
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-sm text-slate-400 dark:text-slate-500">{activity.time}</div>
+                  <div className="text-sm text-slate-400 dark:text-slate-500 whitespace-nowrap">
+                    {activity.time}
+                  </div>
                 </motion.div>
               );
             })}
