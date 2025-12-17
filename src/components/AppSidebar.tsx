@@ -1,4 +1,4 @@
-import { Home, Mic, BarChart3, Award, Settings, Shield, Users, Ticket } from "lucide-react";
+import { Home, Mic, BarChart3, Award, Settings, Shield, Users, Ticket, FileText } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { motion } from "framer-motion";
 import {
@@ -15,6 +15,7 @@ import {
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Practice", url: "/practice", icon: Mic },
+  { title: "Reports", url: "/reports", icon: FileText },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Achievements", url: "/achievements", icon: Award },
   { title: "Settings", url: "/settings", icon: Settings },

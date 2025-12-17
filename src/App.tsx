@@ -23,6 +23,7 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserManagement from "./pages/UserManagement";
 import SupportTicketing from "./pages/SupportTicketing";
+import Reports from "./pages/Reports";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/reports" element={<Reports />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/personal-information" element={<PersonalInformation />} />
