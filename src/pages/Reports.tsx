@@ -16,15 +16,45 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
 
-// Mock data
-const performanceData = {
-  fluency: { score: 7.5, trend: [6.5, 6.8, 7.0, 7.2, 7.5, 7.5] },
-  lexical: { score: 7.0, trend: [6.0, 6.2, 6.5, 6.8, 7.0, 7.0] },
-  grammar: { score: 6.5, trend: [5.5, 5.8, 6.0, 6.2, 6.5, 6.5] },
-  pronunciation: { score: 7.0, trend: [6.5, 6.5, 6.8, 7.0, 7.0, 7.0] },
-};
+
+import { DetailedCriterionCard } from "@/components/DetailedCriterionCard";
+
+// Mock data - Detailed Criteria
+const criteriaData = [
+  {
+    title: "Fluency & Coherence",
+    score: 5.0,
+    description: "You sometimes struggle to connect your ideas smoothly, leading to pauses and hesitations. Your responses are often short and lack detail.",
+    strengths: ["Attempts to answer the questions.", "Some basic linking words used (e.g., 'and')."],
+    improvements: ["Frequent hesitations and pauses.", "Difficulty organizing thoughts.", "Responses are often too short and undeveloped."],
+    color: "#64D2FF",
+  },
+  {
+    title: "Lexical Resource",
+    score: 5.0,
+    description: "Your vocabulary is limited, leading to some inaccuracies and repetition. You need to learn more words and phrases to express your ideas effectively.",
+    strengths: ["Uses some basic vocabulary related to everyday topics.", "Understands the questions."],
+    improvements: ["Limited range of vocabulary.", "Repetition of simple words.", "Difficulty paraphrasing or using synonyms."],
+    color: "#A0FF03",
+  },
+  {
+    title: "Grammar",
+    score: 5.0,
+    description: "You make frequent grammatical errors that can sometimes make it difficult to understand your meaning. You need to improve your understanding and use of basic grammar structures.",
+    strengths: ["Can produce some simple sentence structures."],
+    improvements: ["Improve understanding and use of basic grammar structures.", "Reduce frequent grammatical errors."],
+    color: "#FF2D55",
+  },
+  {
+    title: "Pronunciation",
+    score: 5.5,
+    description: "Your pronunciation is generally understandable, but some errors can occasionally interfere with communication. Work on improving your intonation and stress patterns.",
+    strengths: ["Generally understandable speech."],
+    improvements: ["Work on improving intonation patterns.", "Focus on correct word stress."],
+    color: "#FF9F0A",
+  },
+];
 
 const corrections = [
   {
@@ -80,24 +110,6 @@ const improvementSteps = [
   { number: 4, title: "Record & Self-Evaluate", description: "Record yourself and compare with native speakers." },
 ];
 
-// Sparkline component
-function Sparkline({ data, color }: { data: number[]; color: string }) {
-  const chartData = data.map((value, index) => ({ value, index }));
-  return (
-    <ResponsiveContainer width={80} height={32}>
-      <LineChart data={chartData}>
-        <Line
-          type="monotone"
-          dataKey="value"
-          stroke={color}
-          strokeWidth={2}
-          dot={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-
 // Circular Progress Ring
 function CircularProgressRing({ score }: { score: number }) {
   const percentage = (score / 9) * 100;
@@ -146,36 +158,6 @@ function CircularProgressRing({ score }: { score: number }) {
         <span className="text-sm text-muted-foreground uppercase tracking-widest mt-2">Band Score</span>
       </div>
     </div>
-  );
-}
-
-// Performance Card
-function PerformanceCard({ 
-  title, 
-  score, 
-  insight, 
-  data 
-}: { 
-  title: string; 
-  score: number; 
-  insight: string; 
-  data: number[];
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-[2rem] p-6"
-    >
-      <div className="flex justify-between items-start mb-4">
-        <span className="text-muted-foreground text-sm font-medium">{title}</span>
-        <span className="text-2xl font-bold text-primary">{score}</span>
-      </div>
-      <div className="flex justify-between items-end">
-        <p className="text-muted-foreground text-xs max-w-[60%]">{insight}</p>
-        <Sparkline data={data} color="hsl(var(--primary))" />
-      </div>
-    </motion.div>
   );
 }
 
@@ -234,7 +216,7 @@ export default function Reports() {
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl lg:text-5xl font-bold mb-4"
             >
-              Great work, Sarah 🔥
+              Great effort, Duja ✨
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -242,7 +224,7 @@ export default function Reports() {
               transition={{ delay: 0.1 }}
               className="text-muted-foreground text-lg mb-6"
             >
-              Your speaking skills are improving steadily. Here's your latest analysis.
+              You are making an effort to communicate, but frequent pauses and limited vocabulary are affecting your fluency and clarity.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -252,11 +234,11 @@ export default function Reports() {
             >
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <TrendingUp className="w-4 h-4" />
-                Fluency Up
+                Foundation Set
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium">
                 <Sparkles className="w-4 h-4" />
-                New Vocabulary
+                Clear Potential
               </span>
             </motion.div>
           </div>
@@ -267,38 +249,21 @@ export default function Reports() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <CircularProgressRing score={7.5} />
+            <CircularProgressRing score={5} />
           </motion.div>
         </div>
       </section>
 
-      {/* Performance Grid */}
+      {/* Performance Breakdown */}
       <section className="py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <PerformanceCard
-            title="Fluency & Coherence"
-            score={performanceData.fluency.score}
-            insight="Speaks smoothly with natural pauses"
-            data={performanceData.fluency.trend}
-          />
-          <PerformanceCard
-            title="Lexical Resource"
-            score={performanceData.lexical.score}
-            insight="Good range of vocabulary"
-            data={performanceData.lexical.trend}
-          />
-          <PerformanceCard
-            title="Grammar Range"
-            score={performanceData.grammar.score}
-            insight="Minor errors in complex structures"
-            data={performanceData.grammar.trend}
-          />
-          <PerformanceCard
-            title="Pronunciation"
-            score={performanceData.pronunciation.score}
-            insight="Clear with slight L1 influence"
-            data={performanceData.pronunciation.trend}
-          />
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-white">Performance Breakdown</h2>
+          <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Detailed Analysis</span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {criteriaData.map((criterion, index) => (
+            <DetailedCriterionCard key={index} data={criterion} />
+          ))}
         </div>
       </section>
 
