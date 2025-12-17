@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import {
-  Activity,
   AlertCircle,
   Sparkles,
   ArrowRight,
@@ -14,6 +13,7 @@ import {
   X,
   Lightbulb,
   Target,
+  TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
@@ -107,13 +107,13 @@ function CircularProgressRing({ score }: { score: number }) {
   return (
     <div className="relative w-72 h-72">
       {/* Ambient glow */}
-      <div className="absolute inset-0 rounded-full bg-[#64D2FF]/20 blur-3xl" />
+      <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl" />
       
       <svg className="w-full h-full -rotate-90" viewBox="0 0 280 280">
         <defs>
           <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#64D2FF" />
-            <stop offset="100%" stopColor="#5E5CE6" />
+            <stop offset="0%" stopColor="hsl(var(--neon-blue))" />
+            <stop offset="100%" stopColor="hsl(var(--neon-purple))" />
           </linearGradient>
         </defs>
         {/* Background track */}
@@ -122,7 +122,7 @@ function CircularProgressRing({ score }: { score: number }) {
           cy="140"
           r="120"
           fill="none"
-          stroke="#2C2C2E"
+          stroke="hsl(var(--border))"
           strokeWidth="12"
         />
         {/* Progress track */}
@@ -142,8 +142,8 @@ function CircularProgressRing({ score }: { score: number }) {
       
       {/* Center content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-6xl font-bold text-white">{score}</span>
-        <span className="text-sm text-[#8E8E93] uppercase tracking-widest mt-2">Band Score</span>
+        <span className="text-6xl font-bold text-foreground">{score}</span>
+        <span className="text-sm text-muted-foreground uppercase tracking-widest mt-2">Band Score</span>
       </div>
     </div>
   );
@@ -154,28 +154,26 @@ function PerformanceCard({
   title, 
   score, 
   insight, 
-  color, 
   data 
 }: { 
   title: string; 
   score: number; 
   insight: string; 
-  color: string;
   data: number[];
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#1C1C1E] rounded-3xl p-6 border border-[#2C2C2E]"
+      className="glass-card rounded-[2rem] p-6"
     >
       <div className="flex justify-between items-start mb-4">
-        <span className="text-[#8E8E93] text-sm font-medium">{title}</span>
-        <span className="text-2xl font-bold" style={{ color }}>{score}</span>
+        <span className="text-muted-foreground text-sm font-medium">{title}</span>
+        <span className="text-2xl font-bold text-primary">{score}</span>
       </div>
       <div className="flex justify-between items-end">
-        <p className="text-[#8E8E93] text-xs max-w-[60%]">{insight}</p>
-        <Sparkline data={data} color={color} />
+        <p className="text-muted-foreground text-xs max-w-[60%]">{insight}</p>
+        <Sparkline data={data} color="hsl(var(--primary))" />
       </div>
     </motion.div>
   );
@@ -186,17 +184,17 @@ function CorrectionItem({ correction }: { correction: typeof corrections[0] }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-[#1C1C1E] rounded-2xl border border-[#2C2C2E] overflow-hidden">
+    <div className="glass-card rounded-2xl overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-start gap-3 p-4 text-left"
       >
-        <X className="w-5 h-5 text-[#FF2D55] mt-0.5 flex-shrink-0" />
-        <span className="text-white italic flex-1">"{correction.original}"</span>
+        <X className="w-5 h-5 text-destructive mt-0.5 flex-shrink-0" />
+        <span className="text-foreground italic flex-1">"{correction.original}"</span>
         {isOpen ? (
-          <ChevronUp className="w-5 h-5 text-[#8E8E93]" />
+          <ChevronUp className="w-5 h-5 text-muted-foreground" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-[#8E8E93]" />
+          <ChevronDown className="w-5 h-5 text-muted-foreground" />
         )}
       </button>
       
@@ -208,13 +206,13 @@ function CorrectionItem({ correction }: { correction: typeof corrections[0] }) {
           className="px-4 pb-4"
         >
           <div className="flex items-start gap-3 mb-3">
-            <Check className="w-5 h-5 text-[#A0FF03] mt-0.5 flex-shrink-0" />
-            <span className="text-[#A0FF03]">"{correction.corrected}"</span>
+            <Check className="w-5 h-5 text-neon-green mt-0.5 flex-shrink-0" />
+            <span className="text-neon-green">"{correction.corrected}"</span>
           </div>
-          <div className="bg-[#0D0D0D] rounded-xl p-4">
+          <div className="bg-secondary/50 rounded-xl p-4">
             <div className="flex items-start gap-2">
-              <Lightbulb className="w-4 h-4 text-[#FF9F0A] mt-0.5 flex-shrink-0" />
-              <p className="text-[#8E8E93] text-sm">{correction.insight}</p>
+              <Lightbulb className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground text-sm">{correction.insight}</p>
             </div>
           </div>
         </motion.div>
@@ -225,7 +223,7 @@ function CorrectionItem({ correction }: { correction: typeof corrections[0] }) {
 
 export default function Reports() {
   return (
-    <div className="min-h-screen bg-black text-white pb-32">
+    <div className="min-h-screen pb-32">
       {/* Hero Section */}
       <section className="py-8">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
@@ -242,7 +240,7 @@ export default function Reports() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-[#8E8E93] text-lg mb-6"
+              className="text-muted-foreground text-lg mb-6"
             >
               Your speaking skills are improving steadily. Here's your latest analysis.
             </motion.p>
@@ -252,11 +250,11 @@ export default function Reports() {
               transition={{ delay: 0.2 }}
               className="flex gap-3"
             >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#64D2FF]/10 text-[#64D2FF] text-sm font-medium">
-                <Activity className="w-4 h-4" />
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                <TrendingUp className="w-4 h-4" />
                 Fluency Up
               </span>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#BF5AF2]/10 text-[#BF5AF2] text-sm font-medium">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium">
                 <Sparkles className="w-4 h-4" />
                 New Vocabulary
               </span>
@@ -281,28 +279,24 @@ export default function Reports() {
             title="Fluency & Coherence"
             score={performanceData.fluency.score}
             insight="Speaks smoothly with natural pauses"
-            color="#64D2FF"
             data={performanceData.fluency.trend}
           />
           <PerformanceCard
             title="Lexical Resource"
             score={performanceData.lexical.score}
             insight="Good range of vocabulary"
-            color="#A0FF03"
             data={performanceData.lexical.trend}
           />
           <PerformanceCard
             title="Grammar Range"
             score={performanceData.grammar.score}
             insight="Minor errors in complex structures"
-            color="#FF2D55"
             data={performanceData.grammar.trend}
           />
           <PerformanceCard
             title="Pronunciation"
             score={performanceData.pronunciation.score}
             insight="Clear with slight L1 influence"
-            color="#FF9F0A"
             data={performanceData.pronunciation.trend}
           />
         </div>
@@ -316,7 +310,7 @@ export default function Reports() {
             {/* Corrections Section */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <AlertCircle className="w-5 h-5 text-[#FF2D55]" />
+                <AlertCircle className="w-5 h-5 text-destructive" />
                 <h2 className="text-xl font-semibold">Corrections</h2>
               </div>
               <div className="space-y-3">
@@ -329,7 +323,7 @@ export default function Reports() {
             {/* Native Transformations */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <Sparkles className="w-5 h-5 text-[#A0FF03]" />
+                <Sparkles className="w-5 h-5 text-neon-green" />
                 <h2 className="text-xl font-semibold">Native Transformations</h2>
               </div>
               <div className="space-y-4">
@@ -339,18 +333,18 @@ export default function Reports() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-[#1C1C1E] rounded-2xl p-5 border border-[#2C2C2E]"
+                    className="glass-card rounded-2xl p-5"
                   >
-                    <span className="inline-block px-3 py-1 rounded-full border border-[#A0FF03] text-[#A0FF03] text-xs font-medium mb-4">
+                    <span className="inline-block px-3 py-1 rounded-full border border-neon-green/50 text-neon-green text-xs font-medium mb-4">
                       {item.badge}
                     </span>
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
-                        <p className="text-[#8E8E93] line-through">{item.original}</p>
+                        <p className="text-muted-foreground line-through">{item.original}</p>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-[#64D2FF] flex-shrink-0" />
+                      <ArrowRight className="w-5 h-5 text-primary flex-shrink-0" />
                       <div className="flex-1">
-                        <p className="text-white">{item.improved}</p>
+                        <p className="text-foreground">{item.improved}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -365,25 +359,25 @@ export default function Reports() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-[#1C1C1E] to-[#0D0D0D] rounded-3xl p-6 border border-[#2C2C2E]"
+              className="glass-card rounded-[2rem] p-6 bg-gradient-to-br from-primary/5 to-accent/5"
             >
               <h3 className="text-lg font-semibold mb-4">Coach's Insight</h3>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-[#A0FF03] mt-2 shadow-[0_0_8px_#A0FF03]" />
-                  <span className="text-[#D1D1D6]">Excellent use of complex sentence structures in Part 3</span>
+                  <span className="w-2 h-2 rounded-full bg-neon-green mt-2 shadow-[0_0_8px_hsl(var(--neon-green))]" />
+                  <span className="text-foreground/80">Excellent use of complex sentence structures in Part 3</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-[#A0FF03] mt-2 shadow-[0_0_8px_#A0FF03]" />
-                  <span className="text-[#D1D1D6]">Good topic development with relevant examples</span>
+                  <span className="w-2 h-2 rounded-full bg-neon-green mt-2 shadow-[0_0_8px_hsl(var(--neon-green))]" />
+                  <span className="text-foreground/80">Good topic development with relevant examples</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-[#FF9F0A] mt-2 shadow-[0_0_8px_#FF9F0A]" />
-                  <span className="text-[#D1D1D6]">Work on reducing hesitation markers like "um" and "uh"</span>
+                  <span className="w-2 h-2 rounded-full bg-primary mt-2 shadow-[0_0_8px_hsl(var(--primary))]" />
+                  <span className="text-foreground/80">Work on reducing hesitation markers like "um" and "uh"</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-2 h-2 rounded-full bg-[#FF9F0A] mt-2 shadow-[0_0_8px_#FF9F0A]" />
-                  <span className="text-[#D1D1D6]">Practice word stress on multi-syllable words</span>
+                  <span className="w-2 h-2 rounded-full bg-primary mt-2 shadow-[0_0_8px_hsl(var(--primary))]" />
+                  <span className="text-foreground/80">Practice word stress on multi-syllable words</span>
                 </li>
               </ul>
             </motion.div>
@@ -398,13 +392,13 @@ export default function Reports() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + index * 0.1 }}
-                    className="bg-[#1C1C1E] rounded-2xl p-5 border border-[#2C2C2E]"
+                    className="glass-card rounded-2xl p-5"
                   >
-                    <h4 className="text-[#64D2FF] font-medium mb-1">{item.idiom}</h4>
-                    <p className="text-[#8E8E93] text-sm mb-4">{item.context}</p>
-                    <div className="border-l-2 border-[#64D2FF] pl-4">
-                      <p className="text-[#D1D1D6] text-sm">
-                        <span className="text-[#8E8E93]">Try using here: </span>
+                    <h4 className="text-primary font-medium mb-1">{item.idiom}</h4>
+                    <p className="text-muted-foreground text-sm mb-4">{item.context}</p>
+                    <div className="border-l-2 border-primary pl-4">
+                      <p className="text-foreground/80 text-sm">
+                        <span className="text-muted-foreground">Try using here: </span>
                         {item.usage}
                       </p>
                     </div>
@@ -418,17 +412,17 @@ export default function Reports() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="relative rounded-3xl p-[1px] bg-gradient-to-r from-[#64D2FF] to-[#5E5CE6]"
+              className="relative rounded-[2rem] p-[1px] bg-gradient-to-r from-primary to-accent"
             >
-              <div className="bg-[#1C1C1E] rounded-3xl p-6">
+              <div className="glass-card rounded-[2rem] p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <Target className="w-5 h-5 text-[#64D2FF]" />
+                  <Target className="w-5 h-5 text-primary" />
                   <h3 className="text-lg font-semibold">Next Focus</h3>
                 </div>
-                <p className="text-[#8E8E93] mb-4">
+                <p className="text-muted-foreground mb-4">
                   Practice discussing environmental topics using conditionals and hypothetical language.
                 </p>
-                <button className="w-full py-3 rounded-xl bg-white text-black font-medium hover:scale-[1.02] transition-transform">
+                <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
                   Practice This Topic
                 </button>
               </div>
@@ -442,14 +436,14 @@ export default function Reports() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative bg-[#1C1C1E] rounded-3xl p-8 border border-[#2C2C2E] overflow-hidden"
+          className="relative glass-card rounded-[2rem] p-8 overflow-hidden"
         >
           {/* Ambient glow */}
-          <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#A0FF03]/10 rounded-full blur-3xl" />
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-neon-green/10 rounded-full blur-3xl" />
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-6">
-              <ListTodo className="w-6 h-6 text-[#A0FF03]" />
+              <ListTodo className="w-6 h-6 text-neon-green" />
               <h2 className="text-2xl font-semibold">Improvement Plan</h2>
             </div>
             
@@ -458,16 +452,16 @@ export default function Reports() {
                 <motion.div
                   key={step.number}
                   whileHover={{ scale: 1.02 }}
-                  className="flex items-start gap-4 p-4 rounded-2xl bg-[#0D0D0D]/50 border border-[#2C2C2E] group cursor-pointer"
+                  className="flex items-start gap-4 p-4 rounded-2xl bg-secondary/30 border border-border group cursor-pointer"
                 >
-                  <div className="w-10 h-10 rounded-full bg-[#A0FF03]/10 flex items-center justify-center group-hover:bg-[#A0FF03] transition-colors">
-                    <span className="text-[#A0FF03] font-bold group-hover:text-black transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-neon-green/10 flex items-center justify-center group-hover:bg-neon-green transition-colors">
+                    <span className="text-neon-green font-bold group-hover:text-primary-foreground transition-colors">
                       {step.number}
                     </span>
                   </div>
                   <div>
-                    <h4 className="font-medium text-white mb-1">{step.title}</h4>
-                    <p className="text-[#8E8E93] text-sm">{step.description}</p>
+                    <h4 className="font-medium text-foreground mb-1">{step.title}</h4>
+                    <p className="text-muted-foreground text-sm">{step.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -477,12 +471,12 @@ export default function Reports() {
       </section>
 
       {/* Action Bar */}
-      <section className="fixed bottom-0 left-0 right-0 py-6 bg-black/80 backdrop-blur-xl border-t border-[#2C2C2E]">
+      <section className="fixed bottom-0 left-0 right-0 py-6 bg-background/80 backdrop-blur-xl border-t border-border">
         <div className="flex items-center justify-center gap-4 px-8">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-black font-semibold"
+            className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-primary text-primary-foreground font-semibold"
           >
             <Mic className="w-5 h-5" />
             Practice Again
@@ -490,7 +484,7 @@ export default function Reports() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-6 py-4 rounded-2xl bg-[#1C1C1E] text-white font-medium border border-[#2C2C2E]"
+            className="flex items-center gap-2 px-6 py-4 rounded-2xl glass-card font-medium"
           >
             <History className="w-5 h-5" />
             Past Reports
@@ -498,7 +492,7 @@ export default function Reports() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-6 py-4 rounded-2xl bg-[#1C1C1E] text-[#8E8E93] font-medium border border-[#2C2C2E]"
+            className="flex items-center gap-2 px-6 py-4 rounded-2xl glass-card text-muted-foreground font-medium"
           >
             <Download className="w-5 h-5" />
             PDF
