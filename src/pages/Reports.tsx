@@ -17,8 +17,9 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-
 import { DetailedCriterionCard } from "@/components/DetailedCriterionCard";
+import { HistoryWidget } from "@/components/HistoryWidget";
+import { HistorySidebar } from "@/components/HistorySidebar";
 
 // Mock data - Detailed Criteria
 const criteriaData = [
@@ -204,8 +205,24 @@ function CorrectionItem({ correction }: { correction: typeof corrections[0] }) {
 }
 
 export default function Reports() {
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
+
+  const handleSelectHistoryItem = (id: string) => {
+    setSelectedHistoryId(id);
+    setIsHistoryOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen pb-32">
+      {/* History Sidebar */}
+      <HistorySidebar
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        selectedId={selectedHistoryId}
+        onSelectItem={handleSelectHistoryItem}
+      />
       {/* Hero Section */}
       <section className="py-8">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
@@ -320,6 +337,9 @@ export default function Reports() {
 
           {/* Right Column - Smart Insights */}
           <div className="space-y-6">
+            {/* History Widget */}
+            <HistoryWidget onViewAll={() => setIsHistoryOpen(true)} />
+
             {/* Coach's Insight */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -449,6 +469,7 @@ export default function Reports() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => setIsHistoryOpen(true)}
             className="flex items-center gap-2 px-6 py-4 rounded-2xl glass-card font-medium"
           >
             <History className="w-5 h-5" />
