@@ -24,6 +24,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserManagement from "./pages/UserManagement";
 import SupportTicketing from "./pages/SupportTicketing";
 import Reports from "./pages/Reports";
+import Practice from "./pages/Practice";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/reports" element={<Reports />} />
+              <Route path="/practice" element={<Practice />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/personal-information" element={<PersonalInformation />} />
