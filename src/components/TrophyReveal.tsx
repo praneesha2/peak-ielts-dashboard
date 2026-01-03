@@ -138,10 +138,10 @@ const TrophyModel = ({ onVelocityChange }: TrophyModelProps) => {
       if (child instanceof THREE.Mesh) {
         child.material = new THREE.MeshStandardMaterial({
           color: new THREE.Color('#FFD700'),
-          metalness: 0.9,
-          roughness: 0.1,
+          metalness: 0.8,
+          roughness: 0.2,
           emissive: new THREE.Color('#FFB800'),
-          emissiveIntensity: 0.1,
+          emissiveIntensity: 0.3,
         });
       }
     });
@@ -239,21 +239,32 @@ const TrophyModel = ({ onVelocityChange }: TrophyModelProps) => {
   );
 };
 
-// Scene lighting
+// Scene lighting - Enhanced for better trophy visibility
 const SceneLighting = () => {
   return (
     <>
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[5, 5, 5]} intensity={1} color="#ffffff" />
-      <directionalLight position={[-5, 3, -5]} intensity={0.5} color="#4B7BFF" />
-      <pointLight position={[0, 5, 0]} intensity={0.8} color="#FFD700" />
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[5, 5, 5]} intensity={2} color="#ffffff" />
+      <directionalLight position={[-5, 3, -5]} intensity={1.2} color="#ffffff" />
+      <directionalLight position={[0, 5, 0]} intensity={1.5} color="#FFD700" />
+      <pointLight position={[0, 3, 3]} intensity={2} color="#FFD700" />
+      <pointLight position={[3, 0, 3]} intensity={1} color="#FFB800" />
+      <pointLight position={[-3, 0, 3]} intensity={1} color="#FFB800" />
       {/* Rim light */}
       <spotLight
         position={[0, -3, 5]}
-        angle={0.5}
+        angle={0.6}
         penumbra={1}
-        intensity={1.5}
-        color="#B046FA"
+        intensity={2}
+        color="#FFD700"
+      />
+      {/* Top spotlight */}
+      <spotLight
+        position={[0, 5, 0]}
+        angle={0.8}
+        penumbra={0.5}
+        intensity={2.5}
+        color="#ffffff"
       />
     </>
   );
@@ -334,10 +345,7 @@ export const TrophyReveal = ({ isOpen, onClose, score = 7.5, title = "Practice C
               duration: 0.5,
             }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl h-[80vh] mx-4 rounded-[32px] overflow-hidden"
-            style={{
-              background: 'radial-gradient(ellipse at center, #2C5DFA 0%, #1D3AB5 50%, #0F1E5C 100%)',
-            }}
+            className="relative w-full max-w-2xl h-[80vh] mx-4 rounded-[32px] overflow-hidden bg-black"
           >
             {/* Close button */}
             <motion.button
