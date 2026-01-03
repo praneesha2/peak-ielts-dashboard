@@ -211,8 +211,6 @@ const Practice = () => {
       <TrophyReveal
         isOpen={showTrophy}
         onClose={() => setShowTrophy(false)}
-        score={7.5}
-        title="Practice Complete!"
       />
     </div>
   );
