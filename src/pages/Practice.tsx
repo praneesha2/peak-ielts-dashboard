@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface UserPreferences {
-  topic: string;
+  topics: string[];
   thought: string;
   mood: string;
 }
@@ -122,13 +122,15 @@ const Practice = () => {
             >
               <p className="text-xs text-muted-foreground mb-2">Your preferences:</p>
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
-                  {fluencyPreferences.topic}
-                </span>
-                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                {fluencyPreferences.topics.map((topic) => (
+                  <span key={topic} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                    {topic}
+                  </span>
+                ))}
+                <span className="px-3 py-1 rounded-full bg-secondary/50 text-secondary-foreground text-sm font-medium capitalize">
                   {fluencyPreferences.thought}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                <span className="px-3 py-1 rounded-full bg-secondary/50 text-secondary-foreground text-sm font-medium capitalize">
                   {fluencyPreferences.mood}
                 </span>
               </div>
