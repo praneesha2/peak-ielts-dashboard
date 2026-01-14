@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, Play, ChevronRight, Trophy, Clock, Target, Zap } from 'lucide-react';
+import { Mic, Play, ChevronRight, Trophy, Clock, Target, Zap, Sparkles } from 'lucide-react';
 import { TrophyReveal } from '@/components/TrophyReveal';
+import { FluencyModeOnboarding } from '@/components/FluencyModeOnboarding';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+interface UserPreferences {
+  topic: string;
+  thought: string;
+  mood: string;
+}
 
 const practiceTopics = [
   {
@@ -33,10 +41,17 @@ const practiceTopics = [
 
 const Practice = () => {
   const [showTrophy, setShowTrophy] = useState(false);
+  const [showFluencyMode, setShowFluencyMode] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
+  const [fluencyPreferences, setFluencyPreferences] = useState<UserPreferences | null>(null);
 
   const handleViewResults = () => {
     setShowTrophy(true);
+  };
+
+  const handleFluencyComplete = (prefs: UserPreferences) => {
+    setFluencyPreferences(prefs);
+    console.log("Fluency Mode preferences:", prefs);
   };
 
   return (
@@ -54,6 +69,73 @@ const Practice = () => {
           </p>
         </motion.div>
 
+        {/* Fluency Mode Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className={cn(
+            "relative overflow-hidden rounded-3xl p-6",
+            "bg-gradient-to-br from-primary/20 via-primary/10 to-transparent",
+            "border border-primary/30"
+          )}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center">
+                <Sparkles className="w-7 h-7 text-primary" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-foreground">Fluency Mode</h3>
+                  <span className="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-xs font-medium">
+                    NEW
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                  AI-powered conversation practice tailored to your interests
+                </p>
+              </div>
+            </div>
+            <motion.button
+              onClick={() => setShowFluencyMode(true)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={cn(
+                "px-6 py-3 rounded-xl",
+                "bg-primary text-primary-foreground",
+                "font-medium",
+                "shadow-lg shadow-primary/25",
+                "hover:shadow-xl hover:shadow-primary/30",
+                "transition-shadow duration-300"
+              )}
+            >
+              {fluencyPreferences ? "Reconfigure" : "Get Started"}
+            </motion.button>
+          </div>
+
+          {fluencyPreferences && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="mt-4 pt-4 border-t border-primary/20"
+            >
+              <p className="text-xs text-muted-foreground mb-2">Your preferences:</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                  {fluencyPreferences.topic}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                  {fluencyPreferences.thought}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium capitalize">
+                  {fluencyPreferences.mood}
+                </span>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
+
         {/* Practice Topics Grid */}
         <div className="grid gap-4">
           {practiceTopics.map((topic, index) => (
@@ -61,7 +143,7 @@ const Practice = () => {
               key={topic.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
               onClick={() => setSelectedTopic(topic.id)}
               className={`group cursor-pointer rounded-2xl p-6 transition-all duration-300 ${
                 selectedTopic === topic.id
@@ -120,7 +202,7 @@ const Practice = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.5 }}
           className="flex flex-col items-center gap-6 py-8"
         >
           {selectedTopic && (
@@ -188,14 +270,14 @@ const Practice = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.6 }}
           className="grid grid-cols-3 gap-4"
         >
           {[
             { label: 'Sessions Today', value: '3', color: 'text-neon-cyan' },
             { label: 'Current Streak', value: '7 days', color: 'text-neon-orange' },
             { label: 'Avg. Score', value: '6.5', color: 'text-neon-green' },
-          ].map((stat, index) => (
+          ].map((stat) => (
             <div
               key={stat.label}
               className="bg-card rounded-2xl p-4 border border-border text-center"
@@ -211,6 +293,13 @@ const Practice = () => {
       <TrophyReveal
         isOpen={showTrophy}
         onClose={() => setShowTrophy(false)}
+      />
+
+      {/* Fluency Mode Onboarding */}
+      <FluencyModeOnboarding
+        isOpen={showFluencyMode}
+        onClose={() => setShowFluencyMode(false)}
+        onComplete={handleFluencyComplete}
       />
     </div>
   );
