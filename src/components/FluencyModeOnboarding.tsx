@@ -8,7 +8,17 @@ import {
   Leaf, 
   Film,
   ArrowLeft,
-  Sparkles
+  ArrowRight,
+  Sparkles,
+  Music,
+  Trophy,
+  Utensils,
+  Heart,
+  BookOpen,
+  Palette,
+  Plane,
+  Home,
+  Gamepad2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +29,7 @@ interface FluencyModeOnboardingProps {
 }
 
 interface UserPreferences {
-  topic: string;
+  topics: string[];
   thought: string;
   mood: string;
 }
@@ -28,9 +38,17 @@ const topics = [
   { id: "technology", label: "Technology", icon: Cpu },
   { id: "society", label: "Society & Culture", icon: Users },
   { id: "business", label: "Business", icon: Briefcase },
-  { id: "travel", label: "Travel", icon: Map },
+  { id: "travel", label: "Travel", icon: Plane },
   { id: "environment", label: "Environment", icon: Leaf },
-  { id: "entertainment", label: "Entertainment", icon: Film },
+  { id: "movies", label: "Movies & TV", icon: Film },
+  { id: "music", label: "Music", icon: Music },
+  { id: "sports", label: "Sports", icon: Trophy },
+  { id: "food", label: "Food & Cooking", icon: Utensils },
+  { id: "health", label: "Health & Wellness", icon: Heart },
+  { id: "education", label: "Education", icon: BookOpen },
+  { id: "art", label: "Art & Design", icon: Palette },
+  { id: "lifestyle", label: "Lifestyle", icon: Home },
+  { id: "gaming", label: "Gaming", icon: Gamepad2 },
 ];
 
 const thoughts = [
@@ -64,18 +82,26 @@ export function FluencyModeOnboarding({ isOpen, onClose, onComplete }: FluencyMo
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [preferences, setPreferences] = useState<UserPreferences>({
-    topic: "",
+    topics: [],
     thought: "",
     mood: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleTopicSelect = (topicId: string) => {
-    setPreferences(prev => ({ ...prev, topic: topicId }));
-    setTimeout(() => {
+  const handleTopicToggle = (topicId: string) => {
+    setPreferences(prev => ({
+      ...prev,
+      topics: prev.topics.includes(topicId)
+        ? prev.topics.filter(t => t !== topicId)
+        : [...prev.topics, topicId]
+    }));
+  };
+
+  const handleTopicsContinue = () => {
+    if (preferences.topics.length > 0) {
       setDirection(1);
       setStep(2);
-    }, 300);
+    }
   };
 
   const handleThoughtSelect = (thoughtId: string) => {
@@ -166,7 +192,7 @@ export function FluencyModeOnboarding({ isOpen, onClose, onComplete }: FluencyMo
         </div>
 
         {/* Content */}
-        <div className="relative min-h-[420px] p-6 overflow-hidden">
+        <div className="relative min-h-[480px] p-6 overflow-hidden">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             {step === 1 && (
               <motion.div
@@ -181,21 +207,21 @@ export function FluencyModeOnboarding({ isOpen, onClose, onComplete }: FluencyMo
               >
                 <div className="text-center space-y-2">
                   <h2 className="text-2xl font-bold text-foreground">What interests you today?</h2>
-                  <p className="text-muted-foreground">Choose a topic to personalize your conversation</p>
+                  <p className="text-muted-foreground">Select one or more topics to personalize your conversation</p>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[300px] overflow-y-auto pr-1">
                   {topics.map((topic) => {
                     const Icon = topic.icon;
-                    const isSelected = preferences.topic === topic.id;
+                    const isSelected = preferences.topics.includes(topic.id);
                     return (
                       <motion.button
                         key={topic.id}
-                        onClick={() => handleTopicSelect(topic.id)}
+                        onClick={() => handleTopicToggle(topic.id)}
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                         className={cn(
-                          "relative flex flex-col items-center justify-center gap-3 p-6 rounded-2xl",
+                          "relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl",
                           "bg-muted/50 dark:bg-white/5",
                           "border-2 transition-all duration-200",
                           isSelected 
@@ -203,16 +229,50 @@ export function FluencyModeOnboarding({ isOpen, onClose, onComplete }: FluencyMo
                             : "border-transparent hover:border-primary/30 hover:bg-muted"
                         )}
                       >
+                        {isSelected && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary flex items-center justify-center"
+                          >
+                            <svg className="w-3 h-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </motion.div>
+                        )}
                         <div className={cn(
-                          "w-12 h-12 rounded-xl flex items-center justify-center",
+                          "w-10 h-10 rounded-xl flex items-center justify-center",
                           "bg-primary/10 dark:bg-primary/20"
                         )}>
-                          <Icon className="w-6 h-6 text-primary" />
+                          <Icon className="w-5 h-5 text-primary" />
                         </div>
-                        <span className="text-sm font-medium text-foreground">{topic.label}</span>
+                        <span className="text-xs font-medium text-foreground text-center">{topic.label}</span>
                       </motion.button>
                     );
                   })}
+                </div>
+
+                <div className="flex justify-center pt-2">
+                  <motion.button
+                    onClick={handleTopicsContinue}
+                    disabled={preferences.topics.length === 0}
+                    whileHover={{ scale: preferences.topics.length > 0 ? 1.02 : 1 }}
+                    whileTap={{ scale: preferences.topics.length > 0 ? 0.98 : 1 }}
+                    className={cn(
+                      "flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all",
+                      preferences.topics.length > 0
+                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                        : "bg-muted text-muted-foreground cursor-not-allowed"
+                    )}
+                  >
+                    Continue
+                    <ArrowRight className="w-4 h-4" />
+                    {preferences.topics.length > 0 && (
+                      <span className="ml-1 px-2 py-0.5 text-xs bg-primary-foreground/20 rounded-full">
+                        {preferences.topics.length} selected
+                      </span>
+                    )}
+                  </motion.button>
                 </div>
               </motion.div>
             )}
